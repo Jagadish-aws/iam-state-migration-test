@@ -67,3 +67,4 @@ jobs:
           else
             bash scripts/migrate-iam.sh "$INPUT_ENV" "$INPUT_APP_SHORT_NAME" --apply
           fi
+
