@@ -1,0 +1,97 @@
+name: Migrate ECS IAM to Global IAM State
+
+
+
+
+# Manual only. Moves the shared ECS IAM resources out of an app's ECS Terraform
+# state into its global-iam state. Defaults to a dry run (nothing uploaded).
+on:
+workflow_dispatch:
+inputs:
+env:
+description: 'Environment'
+required: true
+type: choice
+options:
+- test
+- qa
+- uat
+- prod
+app_short_name:
+description: 'App short name (e.g. mr-app1)'
+required: true
+type: string
+dry_run:
+description: 'Dry run (download and migrate locally, upload nothing)'
+required: true
+type: boolean
+default: true
+
+
+
+
+# OPEN ITEMS:
+# TODO: This is the first workflow in this repo. Confirm the prd-docker
+# runners are enabled for Common_TF_Mods_MultiRegion (org admin).
+# TODO: Add a GitHub environment with required reviewers (e.g. per env) and
+# set `environment:` on the job before this is used against prod.
+# TODO: workflow_dispatch workflows only appear in the Actions tab once the
+# file is on the default branch (main). Plan the merge accordingly.
+# See scripts/migrate-iam-state.sh for the script's own open items.
+
+
+
+
+jobs:
+Migrate-IAM-State:
+runs-on: prd-docker
+permissions:
+contents: read
+
+
+
+
+steps:
+- name: Checkout repo
+uses: actions/checkout@v4
+
+
+
+
+- name: Setup Terraform
+uses: hashicorp/setup-terraform@v3
+with:
+terraform_version: '1.5.7'
+terraform_wrapper: false
+
+
+
+
+- name: Verify required tools
+run: |
+echo "Checking aws, terraform versions..."
+aws --version
+terraform version
+
+
+
+
+- name: Run IAM state migration
+# Inputs are passed as env vars rather than inlined into the script, so
+# user-entered values can't be interpreted as shell code.
+env:
+INPUT_ENV: ${{ github.event.inputs.env }}
+INPUT_APP_SHORT_NAME: ${{ github.event.inputs.app_short_name }}
+INPUT_DRY_RUN: ${{ github.event.inputs.dry_run }}
+run: |
+chmod +x scripts/migrate-iam-state.sh
+echo "Env: $INPUT_ENV"
+echo "App short name: $INPUT_APP_SHORT_NAME"
+echo "Dry run: $INPUT_DRY_RUN"
+if [ "$INPUT_DRY_RUN" = "true" ]; then
+bash scripts/migrate-iam-state.sh "$INPUT_ENV" "$INPUT_APP_SHORT_NAME"
+else
+bash scripts/migrate-iam-state.sh "$INPUT_ENV" "$INPUT_APP_SHORT_NAME" --apply
+fi
+
+
