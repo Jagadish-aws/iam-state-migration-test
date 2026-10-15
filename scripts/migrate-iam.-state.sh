@@ -71,8 +71,8 @@ REQUIRED_TF_VERSION="1.5.7"                  # matches the pipeline's Terraform 
 
 
 
-ECS_KEY="env:/${ENV_NAME}/${APP_SHORT_NAME}/ecs/terraform.tfstate"
-GLOBAL_KEY="env:/${ENV_NAME}/global/${APP_SHORT_NAME}/iam/terraform.tfstate"
+ECS_KEY="env/${ENV_NAME}/${APP_SHORT_NAME}/ecs/terraform.tfstate"
+GLOBAL_KEY="env/${ENV_NAME}/global/${APP_SHORT_NAME}/iam/terraform.tfstate"
 TIMESTAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 BACKUP_KEY="iam-migration-backups/${TIMESTAMP}/${ENV_NAME}/${APP_SHORT_NAME}/ecs/terraform.tfstate"
 
