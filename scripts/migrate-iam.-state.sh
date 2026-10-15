@@ -54,7 +54,7 @@ AWS_REGION="us-east-2"
 # TODO (open item 1): this bucket does NOT exist yet. Agreed name for the
 # sandbox test bucket; someone with S3 write access must create it with this
 # exact name (versioning on, public access blocked, default encryption).
-STATE_BUCKET="iam-state-migration-test-450133580082"
+STATE_BUCKET="iam-state-migration-test"
 
 
 
