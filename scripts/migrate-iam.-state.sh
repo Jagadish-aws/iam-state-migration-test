@@ -61,7 +61,7 @@ STATE_BUCKET="iam-state-migration-test"
 
 # Confirmed (open item 2). Set to "" to use the credentials already present
 # instead of assuming a role.
-ASSUME_ROLE_NAME="TargetDeploymentRole"
+ASSUME_ROLE_NAME=""
 
 
 
