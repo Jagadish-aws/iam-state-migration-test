@@ -44,7 +44,7 @@ default: true
 
 jobs:
 Migrate-IAM-State:
-runs-on: prd-docker
+runs-on: ubuntu-latest
 permissions:
 contents: read
 
