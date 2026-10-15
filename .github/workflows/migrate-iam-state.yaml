@@ -58,6 +58,7 @@ jobs:
         run: |
           chmod +x scripts/migrate-iam-state.sh
 
+
           echo "Env: $INPUT_ENV"
           echo "App short name: $INPUT_APP_SHORT_NAME"
           echo "Dry run: $INPUT_DRY_RUN"
