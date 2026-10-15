@@ -63,8 +63,8 @@ jobs:
           echo "Dry run: $INPUT_DRY_RUN"
 
           if [ "$INPUT_DRY_RUN" = "true" ]; then
-            bash scripts/migrate-iam.sh "$INPUT_ENV" "$INPUT_APP_SHORT_NAME"
+            bash scripts/migrate-iam-state.sh "$INPUT_ENV" "$INPUT_APP_SHORT_NAME"
           else
-            bash scripts/migrate-iam.sh "$INPUT_ENV" "$INPUT_APP_SHORT_NAME" --apply
+            bash scripts/migrate-iam-state.sh "$INPUT_ENV" "$INPUT_APP_SHORT_NAME" --apply
           fi
 
